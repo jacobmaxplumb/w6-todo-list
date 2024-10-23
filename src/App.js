@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { TodoForm } from "./components/TodoForm";
+import { TodoList } from "./components/TodoList";
 
-function App() {
+const App = () => {
   const [todos, setTodos] = useState([]);
-  const [text, setText] = useState("");
 
-  const addTodoItem = () => {
+  const addTodoItem = (text) => {
     setTodos([...todos, { id: Date.now(), text: text, completed: false }]);
-    setText("");
   };
 
   const removeTodoItem = (id) => {
@@ -23,22 +23,14 @@ function App() {
 
   return (
     <div>
-      <input value={text} onChange={(e) => setText(e.target.value)} />
-      <button onClick={addTodoItem}>Add</button>
-      <ul>
-        {todos.map((todo) => (
-          <li
-            onClick={() => {
-              removeTodoItem(todo.id);
-            }}
-            key={todo.id}
-          >
-            {todo.text}
-          </li>
-        ))}
-      </ul>
+      <TodoForm addTodoItem={addTodoItem} />
+      <TodoList
+        todos={todos}
+        removeTodoItem={removeTodoItem}
+        markTodoAsCompleted={markTodoAsCompleted}
+      />
     </div>
   );
-}
+};
 
 export default App;
